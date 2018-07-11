@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.6.30
+    container_name: jason_mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+  
+  redis:
+    image: redis:3.0.7
+    container_name: jason_redis
+
+  web:
+    build: ./web
+    container_name: jason_django
+    ports:
+      - "12000:8000"
+    volumes:
+      - /usr/src/myblog
+      - /usr/src/myblog/static
+    links:
+      - mysql
+      - redis    
+    command: /usr/local/bin/uwsgi --http :8000 --chdir /usr/src/myblog -w myblog.wsgi
+
+  nginx:
+    build: ./nginx
+    container_name: jason_nginx-server
+    ports:
+      - "8888:80"
+    links:
+      - web
+    volumes:
+      - /www/static
+    volumes_from:
+      - web  
