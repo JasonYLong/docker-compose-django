@@ -10,7 +10,7 @@
     	docker rm $(docker ps -a|grep jason|awk '{print $1}' )
 	
     	#delete images
-	docker rmi $(docker images|egrep "mysql-redis-web-nginx"|awk '{print $1}' )
+	 docker rmi $(docker images|egrep "mysql-redis-web-nginx"|awk '{print $1}' )
 Notes:
 
     mysql:  my.cnf 如下配置   
