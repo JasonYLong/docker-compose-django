@@ -1,4 +1,4 @@
-**how to use this docker-compose**
+**How to use this docker-compose**
   
     #start container
     docker-compose up
